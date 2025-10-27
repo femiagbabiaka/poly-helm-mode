@@ -91,16 +91,24 @@
     "mustFromJson" "toJson" "mustToJson" "toPrettyJson" "mustToPrettyJson")
   "List of Helm template keywords and functions.")
 
+(defconst go-template-font-lock-keywords
+  `(
+    ("{{-?\\|-?}}"
+     (0 'poly-helm-template-delimiter-face))
+    (,(regexp-opt poly-helm-template-keywords 't)
+     (1 'poly-helm-template-keyword-face))
+                                        ; ("\\$[a-zA-Z_][a-zA-Z0-9_]*"
+                                        ;  (0 'poly-helm-template-variable-face))
+                                        ; ("\\.\\([a-zA-Z_][a-zA-Z0-9_]*\\)"
+                                        ;  (1 'poly-helm-template-action-face))
+                                        ; ("\\b\\([a-zA-Z_][a-zA-Z0-9_]*\\)\\s-*("
+                                        ;  (1 'poly-helm-template-action-face)))
+    )
+  "Font lock keywords for `go-template-mode'.")
+
 (define-derived-mode go-template-mode prog-mode "GoTmpl"
   "Minor mode for Go template syntax within Helm templates."
-  (font-lock-add-keywords
-   nil
-   `(("{{-?\\|\\s-*-?}}" . 'poly-helm-template-delimiter-face)
-     (,(regexp-opt poly-helm-template-keywords 'words) . 'poly-helm-template-keyword-face)
-     ("\\$[a-zA-Z_][a-zA-Z0-9_]*" . 'poly-helm-template-variable-face)
-     ("\\.\\([a-zA-Z_][a-zA-Z0-9_]*\\)" 1 'poly-helm-template-action-face)
-     ("\\b\\([a-zA-Z_][a-zA-Z0-9_]*\\)\\s-*(" 1 'poly-helm-template-action-face)))
-  (font-lock-flush))
+  (setq-local font-lock-defaults '(go-template-font-lock-keywords t)))
 
 (define-hostmode poly-helm-hostmode
   :mode 'yaml-mode
@@ -118,6 +126,7 @@
   "Mode for Helm templates, combining YAML with Go templates."
   :hostmode 'poly-yaml-hostmode
   :innermodes '(poly-helm-template-innermode)
+  (turn-on-font-lock)
   (font-lock-ensure))
 
 (defun poly-helm-mode-is-helm-file-p ()

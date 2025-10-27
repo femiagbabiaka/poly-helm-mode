@@ -32,10 +32,9 @@
 
 (ert-font-lock-deftest-file test-highlighting
   "Test that font-locking works correctly."
-  ;; TODO: Figure out why innermode chunks are only fontified when you enter
-  ;; the first one; something is being done lazily but I don't know what!!
-  poly-helm-mode "examples/test-template.yaml")
-   
+  poly-helm-mode
+  "test-template.yaml")
+
 (provide 'poly-helm-mode-tests)
 
 ;;; poly-helm-mode-tests.el ends here

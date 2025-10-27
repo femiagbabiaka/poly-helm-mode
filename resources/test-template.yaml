@@ -1,0 +1,22 @@
+apiVersion: v1
+# <-font-lock-variable-name-face
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+#        ^ poly-helm-template-delimiter-face
+#            ^ poly-helm-template-action-face
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: {{ mustJson .Release.Name }}
+    label: {{ first $myList }}
+#             ^ poly-helm-template-keyword-face
+#                    ^ poly-helm-template-variable-face
+  {{ if .Values.service.create }}
+#    ^ poly-helm-template-keyword-face
+#         ^ poly-helm-template-action-face
+  type: {{ .Values.service.type }}
+  {{ end }}
+#    ^ poly-helm-template-keyword-face
