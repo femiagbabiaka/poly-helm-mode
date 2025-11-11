@@ -4,9 +4,10 @@
 
 ;; Author: Rami Chowdhury <rami.chowdhury@gmail.com>
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "25.1") (polymode "0.2.2") (yaml-mode "0.0.15"))
+;; Package-Requires: ((emacs "29.1") (polymode "0.2.2") (yaml-mode "0.0.15"))
 ;; Keywords: languages, helm, kubernetes, yaml, templates
 ;; URL: https://github.com/necaris/poly-helm-mode
+;; License: GPLv3
 
 ;; This file is not part of GNU Emacs.
 
