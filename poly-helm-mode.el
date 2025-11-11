@@ -46,12 +46,12 @@
 (require 'polymode)
 (require 'yaml-mode)
 
-(defgroup poly-helm-mode nil
+(defgroup poly-helm nil
   "Major mode for editing Helm templates."
   :group 'languages
   :prefix "poly-helm-mode-")
 
-(defcustom poly-helm-mode-template-directories '("templates" "charts")
+(defcustom poly-helm-template-directories '("templates" "charts")
   "List of directory names that indicate Helm template files."
   :type '(repeat string)
   :group 'poly-helm-mode)
@@ -91,7 +91,7 @@
     "mustFromJson" "toJson" "mustToJson" "toPrettyJson" "mustToPrettyJson")
   "List of Helm template keywords and functions.")
 
-(defconst go-template-font-lock-keywords
+(defconst poly-helm-go-template-font-lock-keywords
   `(
     ("{{-?\\|-?}}"
      (0 'poly-helm-template-delimiter-face))
@@ -104,18 +104,18 @@
                                         ; ("\\b\\([a-zA-Z_][a-zA-Z0-9_]*\\)\\s-*("
                                         ;  (1 'poly-helm-template-action-face)))
     )
-  "Font lock keywords for `go-template-mode'.")
+  "Font lock keywords for `poly-helm-go-template-mode'.")
 
-(define-derived-mode go-template-mode prog-mode "GoTmpl"
+(define-derived-mode poly-helm-go-template-mode prog-mode "GoTmpl"
   "Minor mode for Go template syntax within Helm templates."
-  (setq-local font-lock-defaults '(go-template-font-lock-keywords t)))
+  (setq-local font-lock-defaults '(poly-helm-go-template-font-lock-keywords t)))
 
 (define-hostmode poly-helm-hostmode
   :mode 'yaml-mode
   :keep-in-mode 'host)
 
 (define-innermode poly-helm-template-innermode
-  :mode 'go-template-mode
+  :mode 'poly-helm-go-template-mode
   :head-matcher "{{-?"
   :tail-matcher "-?}}"
   :head-mode 'body
@@ -136,7 +136,7 @@
     (and (or (member filename '("values.yaml" "values.yml" "Chart.yaml" "Chart.yml"))
              (and directory-parts
                   (let ((dir-components (split-string directory-parts "/")))
-                    (cl-some (lambda (dir) (member dir poly-helm-mode-template-directories))
+                    (cl-some (lambda (dir) (member dir poly-helm-template-directories))
                              dir-components))))
          t)))
 
